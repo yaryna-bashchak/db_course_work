@@ -376,20 +376,20 @@ ProjectDelete_EX_Cancel — Натиснута кнопка "Відміна".
 ***РЕЗУЛЬТАТ:*** Дані користувачів зберігаються у форматі JSON.
 
 ***ВИКЛЮЧНІ СИТУАЦІЇ:***
-- UnloadDataUser_EX_Cancel — Натиснута кнопка "Відміна".
-- UnloadDataUser _EX_EmptyProject — Проєкт пустий.
-- UnloadDataUser _EX_NotEnoughMemory — Пам’яті в системі для вивантаження даних недостатньо.
-- UnloadDataUser_EX_WrongDirectory — Каталога для вивантаження даних не існує.
+- UserDataArtifacts_EX_Cancel — Натиснута кнопка "Відміна".
+- UserDataArtifacts_EX_EmptyProject — Проєкт пустий.
+- UserDataArtifacts_EX_NotEnoughMemory — Пам’яті в системі для вивантаження даних недостатньо.
+- UserDataArtifacts_EX_WrongDirectory — Каталога для вивантаження даних не існує.
 
 ***ОСНОВНИЙ СЦЕНАРІЙ:***
 
 1. Менеджер воркспейсу розпочинає взаємодію.
 2. Менеджер воркспейсу натискає кнопку «Вивантаження публічних даних користувачів».
-3. Система запитує каталог збереження даних. (UnloadDataUser _EX_EmptyProject, UnloadDataUser_EX_Cancel)
+3. Система запитує каталог збереження даних. (UserDataArtifacts_EX_EmptyProject, UserDataArtifacts_EX_Cancel)
 4. Менеджер воркспейсу вводить каталог у текстове поле.
-5. Система отримує каталог. (UnloadDataUser_EX_WrongDirectory)
+5. Система отримує каталог. (UserDataArtifacts_EX_WrongDirectory)
 6. Система виконує обробку даних.
-7. Система записує дані у вихідний файл. (UnloadDataUser _EX_NotEnoughMemory)
+7. Система записує дані у вихідний файл. (UserDataArtifacts_EX_NotEnoughMemory)
 8. Менеджер воркспейсу отримує інформацію про вивантаження даних.
 9. Менеджер воркспейсу закінчує взаємодію.
 
