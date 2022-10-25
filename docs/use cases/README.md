@@ -1,3 +1,67 @@
+# Діаграми прецедентів
+
+## Менеджер воркспейсу
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+
+actor "Менеджер проєкту"
+usecase "Управляти \nпроєктами" as MANAGEPROJ #palegreen
+usecase "UserDataArtifacts" as UDARTIF
+
+"Менеджер проєкту" -u-> MANAGEPROJ
+
+usecase "ProjectCreate" as CRPROJ
+usecase "ProjectManagerChange" as CHMANAGERPROJ
+usecase "ProjectDelete" as DELPROJ
+
+CRPROJ .d.> MANAGEPROJ :extends
+CHMANAGERPROJ .d.> MANAGEPROJ :extends
+DELPROJ .d.> MANAGEPROJ :extends
+
+
+"Менеджер проєкту" -d-> UDARTIF
+
+@enduml
+
+</center>
+
+## Адміністратор системи
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+
+actor "Адміністратор системи"
+usecase "Управляти \nкористувачами \nпроєкта" as MANAGEUPROJ #palegreen
+usecase "Support" as SUPPROJECT
+
+"Адміністратор системи" -u-> MANAGEUPROJ
+
+usecase "UserBan" as BANPROJ
+usecase "UserUnBan" as UNBANPROJ
+
+BANPROJ .d.> MANAGEUPROJ :extends
+UNBANPROJ .d.> MANAGEUPROJ :extends
+
+
+"Адміністратор системи" -d-> SUPPROJECT
+
+@enduml
+
+</center>
+
 # Сценарії використання
 
 ## UserReg 
