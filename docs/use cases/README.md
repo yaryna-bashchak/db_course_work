@@ -315,3 +315,124 @@ UNBANPROJ .d.> MANAGEUPROJ :extends
 @enduml
 
 </center>
+
+## TicketCreate
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+
+    left header
+        <font color=000 size=16><b>ID:</b> TicketCreate
+        <font color=000 size=16><b>Назва:</b> Створити завдання
+        <font color=000 size=16><b>Учасники:</b> Користувач проєкту, Система
+        <font color=000 size=16><b>Передумови:</b> Існує проєкт
+        <font color=000 size=16><b>Результат:</b> Завдання створене та додано до відповідного розділу проєкту
+        <font color=000 size=16><b>Виключні ситуації:</b>
+        <font color=000 size=16>TicketCreate_EX_NoName — Назву завдання не вказано
+        <font color=000 size=16>TicketCreate_EX_NoDesc — Опис завдання не вказано
+        <font color=000 size=16>TicketCreate_EX_PressCancel — Натиснута кнопка "Відміна"
+        
+        <font color=000 size=16><b>Основний сценарій:</b>
+        
+    end header
+
+    |Користувач|
+        start
+        : Користувач проєкту розпочинає взаємодію;
+        : Користувач натискає кнопку "Створити завдання";
+    |Система|
+        :Система відкриває модальне вікно
+        з формою для створення завдання;
+        note right #ffaaaa
+        <b> Можливо
+        <b> TicketCreate_EX_PressCancel
+        end note
+    |Користувач|    
+        :Користувач проєкту заповнює форму
+        (назва, опис, дедлайн, відповідальний,
+        пріоритет, статус, додає файли за потреби);
+        : Користувач проєкту натискає кнопку "Створити";
+    |Система|
+        :Система створює завдання та
+        додає його у відповідний розділ проєкту;
+        note right #ffaaaa
+        <b> Можливо
+        <b> TicketCreate_EX_NoName,
+        <b> TicketCreate_EX_NoDesc
+        end note
+    |Користувач|
+        : Всі користувачі проєкту бачать завдання;
+        : Користувач завершує взаємодію;
+        stop;
+
+@enduml
+
+</center>
+
+## TicketEdit
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+
+    left header
+        <font color=000 size=16><b>ID:</b> TicketEdit
+        <font color=000 size=16><b>Назва:</b> Редагувати завдання
+        <font color=000 size=16><b>Учасники:</b> Користувач проєкту, Cистема
+        <font color=000 size=16><b>Передумови:</b> Існує проєкт, Існує завдання
+        <font color=000 size=16><b>Результат:</b> Дані завдання відредаговано, оновлено відображення завдання
+        <font color=000 size=16><b>Виключні ситуації:</b>
+        <font color=000 size=16>TicketEdit_EX_NoName — Назву завдання не вказано
+        <font color=000 size=16>TicketEdit_EX_NoDesc — Опис завдання не вказано
+        <font color=000 size=16>TicketEdit_EX_PressCancel — Натиснута кнопка "Відміна"
+        
+        <font color=000 size=16><b>Основний сценарій:</b>
+        
+    end header
+
+    |Користувач|
+        start
+        : Користувач проєкту розпочинає взаємодію;
+        : Користувач проєкту натискає на карточу завдання;
+    |Система|
+        : Система відкриває модальне вікно перегляду завдання;
+    |Користувач|
+        : Користувач проєкту натискає кнопку редагування завдання;
+    |Система|
+        :Система відкриває форму редагування завдання
+        з попередніми даними завдання;
+        note right #ffaaaa
+        <b> Можливо
+        <b> TicketEdit_EX_PressCancel
+        end note
+    |Користувач|    
+        :Користувач проєкту редагує дані в формі
+        (назва, опис, дедлайн, відповідальний, пріоритет,
+        статус, додає або видаляє файли за потреби);
+        : Користувач проєкту натискає кнопку "Зберегти";
+    |Система|
+        : Система оновлює дані завдання;
+        note right #ffaaaa
+        <b> Можливо
+        <b> TicketEdit_EX_NoDesc,
+        <b> TicketEdit_EX_NoName
+        end note
+    |Користувач|
+        : Всі учасники проєкту бачать оновлені дані завдання;
+        : Користувач завершує взаємодію;
+        stop;
+
+@enduml
+
+</center>
