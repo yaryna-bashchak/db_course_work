@@ -1,16 +1,6 @@
-# Модель прецедентів
+# Сценарії використання
 
-В цьому файлі необхідно перелічити всі документи, розроблені в проекті та дати посилання на них.
-
-*Модель прецедентів повинна містити загальні оглядові діаграми та специфікації прецедентів.*
-
-
-
-Вбудовування зображень діаграм здійснюється з використанням сервісу [plantuml.com](https://plantuml.com/). 
-
-В markdown-файлі використовується опис діаграми
-
-```md
+## UserReg 
 
 <center style="
     border-radius:4px;
@@ -21,65 +11,58 @@
 
 @startuml
 
-    right header
-        <font size=24 color=black>Package: <b>UCD_3.0
+    left header
+
+        <font color=000 size=18><b>ID:</b> UserReg
+
+        <font color=000 size=16><b>НАЗВА:</b> Створити обліковий запис користувача у системі
+
+        <font color=000 size=16><b>УЧАСНИКИ:</b> Користувач, Система
+
+        <font color=000 size=16><b>ПЕРЕДУМОВИ:</b> Обліковий запис користувача не створений у системі
+
+        <font color=000 size=16><b>РЕЗУЛЬТАТ:</b> Обліковий запис користувача створений у системі
+
+        <font color=000 size=16><b>ВИКЛЮЧНІ СИТУАЦІЇ:</b>
+        <font color=000 size=16> UserReg_EX_NotWrittenData — Користувач не вписав реєстраційні дані та намагається зареєструватися
+        <font color=000 size=16> UserReg_EX_AccountExists — Обліковий запис користувача вже створений у системі
+
+        <font color=000 size=16><b>ОСНОВНИЙ СЦЕНАРІЙ:</b>
     end header
 
-    title
-        <font size=18 color=black>UC_8. Редагувати конфігурацію порталу
-        <font size=16 color=black>Діаграма прецедентів
-    end title
+    |Користувач|
+        start
+        :Користувач починає взаємодію;
 
+        :Користувач вводить реєстраційні дані;
 
-    actor "Користувач" as User #eeeeaa
-    
-    package UCD_1{
-        usecase "<b>UC_1</b>\nПереглянути список \nзвітів" as UC_1 #aaeeaa
-    }
-    
-    usecase "<b>UC_1.1</b>\nЗастосувати фільтр" as UC_1.1
-    usecase "<b>UC_1.2</b>\nПереглянути метадані \nзвіту" as UC_1.2  
-    usecase "<b>UC_1.2.1</b>\nДати оцінку звіту" as UC_1.2.1  
-    usecase "<b>UC_1.2.2</b>\nПереглянути інформацію \nпро авторів звіту" as UC_1.2.2
-    
-    package UCD_1 {
-        usecase "<b>UC_4</b>\nВикликати звіт" as UC_4 #aaeeaa
-    }
-    
-    usecase "<b>UC_1.1.1</b>\n Використати \nпошукові теги" as UC_1.1.1  
-    usecase "<b>UC_1.1.2</b>\n Використати \nрядок пошуку" as UC_1.1.2
-    usecase "<b>UC_1.1.3</b>\n Використати \nавторів" as UC_1.1.3  
-    
-    
-    
-    User -> UC_1
-    UC_1.1 .u.> UC_1 :extends
-    UC_1.2 .u.> UC_1 :extends
-    UC_4 .d.> UC_1.2 :extends
-    UC_1.2 .> UC_1.2 :extends
-    UC_1.2.1 .u.> UC_1.2 :extends
-    UC_1.2.2 .u.> UC_1.2 :extends
-    UC_1 ..> UC_1.2.2 :extends
-    
-    
-    UC_1.1.1 -u-|> UC_1.1
-    UC_1.1.2 -u-|> UC_1.1
-    UC_1.1.3 -u-|> UC_1.1
-    
-    right footer
-        Аналітичний портал. Модель прецедентів.
-        НТУУ КПІ ім.І.Сікорського
-        Киів-2020
-    end footer
+        :Користувач натискає на кнопку/іконку "Зареєструватися";
+        note left #ffaaaa
+        <b> Можлива
+        <b> UserReg_EX_NotWrittenData
+        end note
+    |Система|
+        :Система перевіряє наявність облікового запису користувача;
+        note right #ffaaaa
+        <b> Можлива
+        <b> UserReg_EX_AccountExists
+        end note
+
+        :Система створює новий обліковий запис;
+
+        :Система надає користувачу інформацію про створення облікового запису;
+    |Користувач|
+        :Користувач отримує інформацію про успішну реєстрацію;
+
+        :Користувач закінчує взаємодію;
+
+        stop;
 
 @enduml
 
-**Діаграма прецедентів**
-
 </center>
-```
 
-яка буде відображена наступним чином
+## UserAuth
 
 <center style="
     border-radius:4px;
@@ -90,60 +73,181 @@
 
 @startuml
 
-    right header
-        <font size=24 color=black>Package: <b>UCD_3.0
+    left header
+
+        <font color=000 size=18><b>ID:</b> UserAuth
+
+        <font color=000 size=16><b>НАЗВА:</b> Авторизувати користувача у системі
+
+        <font color=000 size=16><b>УЧАСНИКИ:</b> Користувач, Система
+
+        <font color=000 size=16><b>ПЕРЕДУМОВИ:</b> 
+        <font color=000 size=16>Користувач зареєстрований у системі
+        <font color=000 size=16>Користувач не авторизувався у системі
+
+        <font color=000 size=16><b>РЕЗУЛЬТАТ:</b> Користувач авторизований у системі
+
+        <font color=000 size=16><b>ВИКЛЮЧНІ СИТУАЦІЇ:</b>
+        <font color=000 size=16> UserAuth_EX_NotWrittenData — Користувач не вписав авторизаційні дані та намагається авторизуватися
+        <font color=000 size=16> UserAuth_EX_AccountNotExists — Користувач не зареєстрований у системі
+        <font color=000 size=16> UserAuth_EX_InvalidСredentials — Користувач не пройшов авторизацію
+
+        <font color=000 size=16><b>ОСНОВНИЙ СЦЕНАРІЙ:</b>
     end header
 
-    title
-        <font size=18 color=black>UC_8. Редагувати конфігурацію порталу
-        <font size=16 color=black>Діаграма прецедентів
-    end title
+    |Користувач|
+        start
+        :Користувач починає взаємодію;
+        
+        :Користувач вводить авторизаційні дані;
+        
+        :Користувач натискає на кнопку/іконку "Увійти";
+        note left #ffaaaa
+        <b> Можлива
+        <b> UserAuth_EX_NotWrittenData
+        end note
+    |Система|
+        :Система перевіряє наявність облікового запису користувача;
+        note right #ffaaaa
+        <b> Можлива
+        <b> UserAuth_EX_AccountNotExists
+        end note
 
+        :Система перевіряє отримані авторизаційні дані;
+        note right #ffaaaa
+        <b> Можлива
+        <b> UserAuth_EX_InvalidСredentials
+        end note
 
-    actor "Користувач" as User #eeeeaa
-    
-    package UCD_1{
-        usecase "<b>UC_1</b>\nПереглянути список \nзвітів" as UC_1 #aaeeaa
-    }
-    
-    usecase "<b>UC_1.1</b>\nЗастосувати фільтр" as UC_1.1
-    usecase "<b>UC_1.2</b>\nПереглянути метадані \nзвіту" as UC_1.2  
-    usecase "<b>UC_1.2.1</b>\nДати оцінку звіту" as UC_1.2.1  
-    usecase "<b>UC_1.2.2</b>\nПереглянути інформацію \nпро авторів звіту" as UC_1.2.2
-    
-    package UCD_1 {
-        usecase "<b>UC_4</b>\nВикликати звіт" as UC_4 #aaeeaa
-    }
-    
-    usecase "<b>UC_1.1.1</b>\n Використати \nпошукові теги" as UC_1.1.1  
-    usecase "<b>UC_1.1.2</b>\n Використати \nрядок пошуку" as UC_1.1.2
-    usecase "<b>UC_1.1.3</b>\n Використати \nавторів" as UC_1.1.3  
-    
-    
-    
-    User -> UC_1
-    UC_1.1 .u.> UC_1 :extends
-    UC_1.2 .u.> UC_1 :extends
-    UC_4 .d.> UC_1.2 :extends
-    UC_1.2 .> UC_1.2 :extends
-    UC_1.2.1 .u.> UC_1.2 :extends
-    UC_1.2.2 .u.> UC_1.2 :extends
-    UC_1 ..> UC_1.2.2 :extends
-    
-    
-    UC_1.1.1 -u-|> UC_1.1
-    UC_1.1.2 -u-|> UC_1.1
-    UC_1.1.3 -u-|> UC_1.1
-    
-    right footer
-        Аналітичний портал. Модель прецедентів.
-        НТУУ КПІ ім.І.Сікорського
-        Киів-2020
-    end footer
+        :Система надає доступ користувачеві до облікового запису;
+    |Користувач|
+        :Користувач отримує інформацію про успішну авторизацію;
+
+        :Користувач закінчує взаємодію;
+        
+        stop;
 
 @enduml
 
-**Діаграма прецедентів**
+</center>
+
+## EditProfile
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+
+    left header
+
+        <font color=000 size=18><b>ID:</b> EditProfile
+
+        <font color=000 size=16><b>НАЗВА:</b> Відредагувати профіль користувача у системі
+
+        <font color=000 size=16><b>УЧАСНИКИ:</b> Користувач, Система
+
+        <font color=000 size=16><b>ПЕРЕДУМОВИ:</b> 
+        <font color=000 size=16>Користувач авторизувався у системі
+
+        <font color=000 size=16><b>РЕЗУЛЬТАТ:</b> Користувач має відредагований профіль
+        
+        <font color=000 size=16><b>ВИКЛЮЧНІ СИТУАЦІЇ:</b>
+        <font color=000 size=16> EditProfile_EX_NotWrittenName — Користувач не вписав ім'я та намагається зберегти зміни
+
+        <font color=000 size=16><b>ОСНОВНИЙ СЦЕНАРІЙ:</b>
+    end header
+
+    |Користувач|
+        start
+        :Користувач починає взаємодію;
+        
+        :Користувач натискає на кнопку/іконку "Профіль";
+    |Система|
+        :Система відкриває профіль користувача;
+    |Користувач|
+        :Користувач натискає на кнопку/іконку "Редагувати профіль";
+    |Система|
+        :Система відкриває форму для редагування профілю;
+    |Користувач|
+        :Користувач редагує профіль: ім'я, аватар, пошта;
+        :Користувач натискає кнопкку/іконку "Зберегти зміни";
+        note left #ffaaaa
+        <b> Можлива
+        <b> EditProfile_EX_NotWrittenName
+        end note 
+    |Система|
+        :Система зберігає зміни в профілі користувача;
+    |Користувач|
+        :Користувач отримує інформацію про успішне редагування профілю;
+    
+        :Користувач бачить оновлені дані профілю;
+    
+        :Користувач закінчує взаємодію;
+
+        stop;
+
+@enduml
 
 </center>
 
+## ProfileArtifacts
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+
+    left header
+
+        <font color=000 size=18><b>ID:</b> ProfileArtifacts
+
+        <font color=000 size=16><b>НАЗВА:</b> Завантажити інформацію про профіль
+
+        <font color=000 size=16><b>УЧАСНИКИ:</b> Користувач, Система
+
+        <font color=000 size=16><b>ПЕРЕДУМОВИ:</b> 
+        <font color=000 size=16>Користувач авторизувався у системі
+
+        <font color=000 size=16><b>РЕЗУЛЬТАТ:</b> Файл у форматі .json, який містить дані профілю
+        
+        <font color=000 size=16><b>ВИКЛЮЧНІ СИТУАЦІЇ:</b>
+        <font color=000 size=16> ProfileArtifacts_EX_NoData — Профіль не містить даних
+
+        <font color=000 size=16><b>ОСНОВНИЙ СЦЕНАРІЙ:</b>
+    end header
+
+    |Користувач|
+        start
+        :Користувач починає взаємодію;
+        
+        :Користувач натискає на кнопку/іконку "Профіль";
+    |Система|
+        :Система відкриває профіль користувача;
+    |Користувач|
+        :Користувач натискає на кнопку/іконку "Створити файл форматі .json";
+        note left #ffaaaa
+        <b> Можлива
+        <b> ProfileArtifacts_EX_NoDat
+        end note 
+    |Система|
+        :Система створює файл профілю у форматі .json;
+    |Користувач|
+        :Користувач натискає кнопкку/іконку "Завантажити файл; 
+    |Система|
+        :Система завантажує файл на комп’ютер користувача;
+    |Користувач|
+        :Користувач закінчує взаємодію;
+
+        stop;
+
+@enduml
+
+</center>
