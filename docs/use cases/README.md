@@ -1,5 +1,56 @@
 # Діаграми прецедентів
 
+## Загальна схема
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+
+actor "Користувач системи" as SystemUser
+actor "Користувач проєкту" as ProjectUser
+actor "Менеджер проєкту" as ProjectManager
+actor "Менеджер воркспейсу" as WorkspaceManager
+actor "Адміністратор системи" as SystemAdministrator
+usecase "Управляти \nпрофілем" as MngProf #palegreen
+usecase "Управляти \nзавданнями" as MngTasks #palegreen
+usecase "Управляти \nдошками \nпроєкту" as MngProjectBoards #palegreen
+usecase "Управляти \nучасниками \nпроєкту" as MngProjectUsers #palegreen
+usecase "Управляти \nпроєктами" as MngProjects #palegreen
+usecase "Управляти \nкористувачами \nсистеми" as MngSystemUsers #palegreen
+usecase "UserAuth" as UsAuth
+usecase "UserReg" as UsReg
+usecase "UserDataArtifacts" as UDA
+usecase "Support" as Sup
+
+SystemAdministrator -u-|> WorkspaceManager
+WorkspaceManager -u-|> ProjectManager
+ProjectManager -u-|> ProjectUser
+ProjectUser -u-|> SystemUser
+
+SystemUser -> UsAuth
+SystemUser -u-> MngProf
+SystemUser -l-> UsReg
+
+ProjectUser -> MngTasks
+
+ProjectManager -> MngProjectBoards
+ProjectManager -l-> MngProjectUsers
+
+WorkspaceManager -> MngProjects
+WorkspaceManager -l-> UDA
+
+SystemAdministrator -l-> MngSystemUsers
+SystemAdministrator -> Sup
+
+@enduml
+
+</center>
+
 ## Користувач системи
 
 <center style="
@@ -31,6 +82,32 @@ actor -d-> UsReg
 
 </center>
 
+## Користувач проєкту
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+
+"Користувач проєкту" as actor
+usecase "Управляти \nзавданнями" as MngTasks #palegreen
+
+actor -u-> MngTasks
+
+usecase "CreateTask" as CrTask
+usecase "EditTask" as EdTask
+
+CrTask .d.> MngTasks :extends
+EdTask .d.> MngTasks :extends
+
+@enduml
+
+</center>
+
 ## Менеджер проєкту
 
 <center style="
@@ -43,7 +120,7 @@ actor -d-> UsReg
 @startuml
 
 "Менеджер проєкту" as actor
-usecase "Управляти \nдошками" as MngBrd #palegreen
+usecase "Управляти \nдошками \nпроєкту" as MngBrd #palegreen
 
 actor -u-> MngBrd
 
@@ -56,7 +133,7 @@ TckAndBrdCr .d.> MngBrd :extends
 BrdEd .d.> MngBrd :extends
 
 
-usecase "Керувати\nкористувачами\nпроєкту" as MngUsOfProj #palegreen
+usecase "Управляти\nкористувачами\nпроєкту" as MngUsOfProj #palegreen
 
 actor -d-> MngUsOfProj
 
@@ -114,7 +191,7 @@ DELPROJ .d.> MANAGEPROJ :extends
 @startuml
 
 actor "Адміністратор системи"
-usecase "Управляти \nкористувачами \nпроєкта" as MANAGEUPROJ #palegreen
+usecase "Управляти \nкористувачами \nсистеми" as MANAGEUPROJ #palegreen
 usecase "Support" as SUPPROJECT
 
 "Адміністратор системи" -u-> MANAGEUPROJ
@@ -124,7 +201,6 @@ usecase "UserUnBan" as UNBANPROJ
 
 BANPROJ .d.> MANAGEUPROJ :extends
 UNBANPROJ .d.> MANAGEUPROJ :extends
-
 
 "Адміністратор системи" -d-> SUPPROJECT
 
