@@ -436,3 +436,337 @@ UNBANPROJ .d.> MANAGEUPROJ :extends
 @enduml
 
 </center>
+
+## BoardCreate
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+
+    left header
+
+        <font color=000 size=18><b>ID:</b> BoardCreate
+
+        <font color=000 size=16><b>НАЗВА:</b> Cтворити дошку
+
+        <font color=000 size=16><b>УЧАСНИКИ:</b> Менеджер проєкту, Система
+
+        <font color=000 size=16><b>ПЕРЕДУМОВИ:</b> 
+        <font color=000 size=16> Існує проєкт
+
+        <font color=000 size=16><b>РЕЗУЛЬТАТ:</b> Дошку створено у системі
+
+        <font color=000 size=16><b>ВИКЛЮЧНІ СИТУАЦІЇ:</b>
+        <font color=000 size=16> BoardCreate_EX_NoName – Назву дошки не вказано.
+        <font color=000 size=16> BoardCreate_EX_NameExists – Дошка з такою назвою вже існує.
+        <font color=000 size=16> BoardCreate_EX_PressCancel – Натиснута кнопка "Відміна".
+        <font color=000 size=16><b>ОСНОВНИЙ СЦЕНАРІЙ:</b>
+    end header
+
+    |Менеджер проєкту|
+        start
+        :Менеджер проєкту починає взаємодію;
+
+        :Менеджер проєкту натискає кнопку «Створити дошку»;
+
+    |Система|
+        :Система відкриває модальне вікно з формою для створення дошки;
+        note right #ffaaaa
+        <b> Можлива
+        <b> BoardCreate_EX_PressCancel
+        end note
+
+    |Менеджер проєкту|
+        :Менеджер проєкту додає назву та опис дошки;
+
+    |Система|
+        :Система створює дошку та додає її у відповідний розділ проєкту;
+        note right #ffaaaa
+        <b> Можлива
+        <b> BoardCreate_EX_NoName
+        end note
+        note right #ffaaaa
+        <b> Можлива
+        <b> BoardCreate_EX_NameExists
+        end note
+
+        :Система відправляє менеджеру проєкту інформацію про успішне створення дошки;
+
+    |Менеджер проєкту|
+        :Менеджер проєкту отримує інформацію про успішне створення дошки;
+        
+        :Менеджер проєкту закінчує взаємодію;
+
+        stop;
+
+@enduml
+
+</center>
+
+## BoardEdit
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+
+    left header
+
+        <font color=000 size=18><b>ID:</b> BoardCreate
+
+        <font color=000 size=16><b>НАЗВА:</b> Редагувати дошку
+
+        <font color=000 size=16><b>УЧАСНИКИ:</b> Менеджер проєкту, Система
+
+        <font color=000 size=16><b>ПЕРЕДУМОВИ:</b>
+        <font color=000 size=16> Існує проєкт
+        <font color=000 size=16> Існує дошка
+
+        <font color=000 size=16><b>РЕЗУЛЬТАТ:</b> Дошку оновлено у системі
+
+        <font color=000 size=16><b>ВИКЛЮЧНІ СИТУАЦІЇ:</b>
+        <font color=000 size=16> BoardEdit_EX_NoName – Назву дошки не вказано.
+        <font color=000 size=16> BoardEdit_EX_NameExists – Дошка з такою назвою вже існує.
+        <font color=000 size=16> BoardEdit_EX_PressCancel – Натиснута кнопка "Відміна".
+        <font color=000 size=16><b>ОСНОВНИЙ СЦЕНАРІЙ:</b>
+    end header
+
+    |Менеджер проєкту|
+        start
+        :Менеджер проєкту починає взаємодію;
+
+        :Менеджер проєкту натискає кнопку «Редагувати дошку»;
+
+    |Система|
+        :Система відкриває форму редагування завдання з попередніми даними дошки;
+        note right #ffaaaa
+        <b> Можлива
+        <b> BoardEdit_EX_PressCancel
+        end note
+
+    |Менеджер проєкту|
+        :Менеджер проєкту редагує дані дошки (назва, опис) та натискає кнопку "Зберегти";
+
+    |Система|
+        :Система оновлює дані дошки;
+        note right #ffaaaa
+        <b> Можлива
+        <b> BoardEdit_EX_NoName
+        end note
+        note right #ffaaaa
+        <b> Можлива
+        <b> BoardEdit_EX_NameExists
+        end note
+
+        :Система відправляє менеджеру проєкту інформацію про успішне оновлення дошки;
+
+    |Менеджер проєкту|
+        :Менеджер проєкту отримує інформацію про успішне оновлення дошки;
+        
+        :Менеджер проєкту закінчує взаємодію;
+
+        stop;
+
+@enduml
+
+</center>
+
+## MemberAdd
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+
+    left header
+
+        <font color=000 size=18><b>ID:</b> MemberAdd
+
+        <font color=000 size=16><b>НАЗВА:</b> Додати користувача до проєкту
+
+        <font color=000 size=16><b>УЧАСНИКИ:</b> Менеджер проєкту, Система
+
+        <font color=000 size=16><b>ПЕРЕДУМОВИ:</b> 
+        <font color=000 size=16> Існує проєкт
+
+        <font color=000 size=16><b>РЕЗУЛЬТАТ:</b> Користувач стає учасником проєкту
+
+        <font color=000 size=16><b>ВИКЛЮЧНІ СИТУАЦІЇ:</b>
+        <font color=000 size=16> MemberAdd_EX_UserDontExist — Такого користувача не існує.
+        <font color=000 size=16> MemberAdd_EX_UserIsAlreadyMember — Користувач вже є учасником проєкту.
+        <font color=000 size=16> MemberAdd_EX_Cancel — Натиснута кнопка "Відміна".
+        <font color=000 size=16><b>ОСНОВНИЙ СЦЕНАРІЙ:</b>
+        end header
+
+    |Менеджер проєкту|
+        start
+        :Менеджер проєкту починає взаємодію;
+
+        :Менеджер проєкту натискає кнопку «Додати учасника»;
+
+    |Система|
+        :Система відкриває модальне вікно з формою пошуку користувачів;
+        note right #ffaaaa
+        <b> Можлива
+        <b> MemberAdd_EX_PressCancel
+        end note
+
+    |Менеджер проєкту|
+        :Менеджер проєкту вписує юзернейм або адресу електронної пошти користувача у форму;
+
+    |Система|
+        :Система шукає користувача у базі данних та додає його до проєкту;
+        note right #ffaaaa
+        <b> Можлива
+        <b> MemberAdd_EX_UserDontExist
+        end note
+        note right #ffaaaa
+        <b> Можлива
+        <b> MemberAdd_EX_UserIsAlreadyMember
+        end note
+
+        :Система відправляє менеджеру проєкту інформацію про успішне додавання учасника до проєкт;
+
+    |Менеджер проєкту|
+        :Менеджер проєкту отримує інформацію про додавання користувача до проєкту;
+        
+        :Менеджер проєкту закінчує взаємодію;
+
+        stop;
+
+@enduml
+
+</center>
+
+## MemberRemove
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+
+    left header
+
+        <font color=000 size=18><b>ID:</b> MemberRemove
+
+        <font color=000 size=16><b>НАЗВА:</b> Видалити користувача з проєкту
+
+        <font color=000 size=16><b>УЧАСНИКИ:</b> Менеджер проєкту, Система
+
+        <font color=000 size=16><b>ПЕРЕДУМОВИ:</b>
+        <font color=000 size=16> Існує проєкт
+        <font color=000 size=16> Існує учасник проєкту
+
+        <font color=000 size=16><b>РЕЗУЛЬТАТ:</b> Користувач більше не учасник проєкту
+
+        <font color=000 size=16><b>ВИКЛЮЧНІ СИТУАЦІЇ:</b>
+        <font color=000 size=16> MemberRemove_EX_Cancel — Натиснута кнопка "Відміна".
+        <font color=000 size=16><b>ОСНОВНИЙ СЦЕНАРІЙ:</b>
+        end header
+
+    |Менеджер проєкту|
+        start
+        :Менеджер проєкту починає взаємодію;
+
+        :Менеджер проєкту натискає кнопку «Учасники проєкту»;
+
+    |Система|
+        :Система відкриває модальне вікно з учасниками проєкту;
+        note right #ffaaaa
+        <b> Можлива
+        <b> MemberAdd_EX_PressCancel
+        end note
+
+    |Менеджер проєкту|
+        :Менеджер проєкту обирає учасника у модальному вікні;
+
+        :Менеджер проєкту натискає кнопку «Видалити учасника»;
+
+    |Система|
+        :Система видаляє учасника з проєкту та оновлює список учасників;
+
+        :Система відправляє менеджеру проєкту інформацію про успішне видалення учасника з проєкту;
+
+    |Менеджер проєкту|
+        :Менеджер проєкту отримує інформацію про видалення учасника з проєкту;
+        
+        :Менеджер проєкту закінчує взаємодію;
+
+        stop;
+
+@enduml
+
+</center>
+
+## TicketsAndBoardsArtifact
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+
+    left header
+
+        <font color=000 size=18><b>ID:</b> TicketsAndBoardsArtifact
+
+        <font color=000 size=16><b>НАЗВА:</b> Завантажити інформацію про завдання та дошки проєкту
+
+        <font color=000 size=16><b>УЧАСНИКИ:</b> Менеджер проєкту, Система
+
+        <font color=000 size=16><b>ПЕРЕДУМОВИ:</b> 
+        <font color=000 size=16> Існує проєкт
+
+        <font color=000 size=16><b>РЕЗУЛЬТАТ:</b> Файл у форматі .json, який містить дані усіх завдань та дошок проєкту
+        
+        <font color=000 size=16><b>ВИКЛЮЧНІ СИТУАЦІЇ:</b>
+        <font color=000 size=16> TicketsAndBoardsArtifact_EX_NoData — Проєкт не містить завдань чи дошок
+
+        <font color=000 size=16><b>ОСНОВНИЙ СЦЕНАРІЙ:</b>
+    end header
+
+    |Менеджер проєкту|
+        start
+        :Менеджер проєкту починає взаємодію;
+        
+        :Менеджер проєкту натискає кнопку "Завантажити інформацію про завдання та дошки проєкту";
+    |Система|
+        :Система створює файл профілю у форматі .json;
+        note right #ffaaaa
+        <b> Можлива
+        <b> TicketsAndBoardsArtifact_EX_NoData
+        end note
+
+    |Менеджер проєкту|
+        :Менеджер проєкту натискає кнопку "Завантажити файл";
+
+    |Система|
+        :Система завантажує файл на комп’ютер менеджера проєкту;
+    |Менеджер проєкту|
+        :Менеджер проєкту завершує взаємодію;
+
+        stop;
+
+@enduml
+
+</center>
