@@ -1,5 +1,75 @@
 # Діаграми прецедентів
 
+## Користувач системи
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+
+"Користувач системи" as actor
+usecase "Управляти \nпрофілем" as MngProf #palegreen
+usecase "UserAuth" as UsAuth
+usecase "UserReg" as UsReg
+
+actor -u-> MngProf
+
+usecase "EditProfile" as EdProf
+usecase "ProfileArtifacts" as ProfArt
+
+EdProf .d.> MngProf :extends
+ProfArt .d.> MngProf :extends
+
+actor -d-> UsAuth
+actor -d-> UsReg
+
+@enduml
+
+</center>
+
+## Менеджер проєкту
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+
+"Менеджер проєкту" as actor
+usecase "Управляти \nдошками" as MngBrd #palegreen
+
+actor -u-> MngBrd
+
+usecase "BoardCreate" as BrdCr
+usecase "TicketsAndBoards\nArtifact" as TckAndBrdCr
+usecase "BoardEdit" as BrdEd
+
+BrdCr .d.> MngBrd :extends
+TckAndBrdCr .d.> MngBrd :extends
+BrdEd .d.> MngBrd :extends
+
+
+usecase "Керувати\nкористувачами\nпроєкту" as MngUsOfProj #palegreen
+
+actor -d-> MngUsOfProj
+
+usecase "MemberAdd" as MmbAdd
+usecase "MemberRemove" as MmbRm
+
+MmbAdd .u.> MngUsOfProj :extends
+MmbRm .u.> MngUsOfProj :extends
+
+@enduml
+
+</center>
+
 ## Менеджер воркспейсу
 
 <center style="
@@ -11,11 +81,11 @@
 
 @startuml
 
-actor "Менеджер проєкту"
+actor "Менеджер воркспейсу"
 usecase "Управляти \nпроєктами" as MANAGEPROJ #palegreen
 usecase "UserDataArtifacts" as UDARTIF
 
-"Менеджер проєкту" -u-> MANAGEPROJ
+"Менеджер воркспейсу" -u-> MANAGEPROJ
 
 usecase "ProjectCreate" as CRPROJ
 usecase "ProjectManagerChange" as CHMANAGERPROJ
@@ -26,7 +96,7 @@ CHMANAGERPROJ .d.> MANAGEPROJ :extends
 DELPROJ .d.> MANAGEPROJ :extends
 
 
-"Менеджер проєкту" -d-> UDARTIF
+"Менеджер воркспейсу" -d-> UDARTIF
 
 @enduml
 
