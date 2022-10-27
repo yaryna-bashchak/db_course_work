@@ -917,6 +917,289 @@ UNBANPROJ .d.> MANAGEUPROJ :extends
 
 </center>
 
+## ProjectCreate
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+
+    left header
+
+        <font color=000 size=18><b>ID:</b> ProjectCreate
+
+        <font color=000 size=16><b>НАЗВА:</b> Створити проєкт
+
+        <font color=000 size=16><b>УЧАСНИКИ:</b> Менеджер воркспейсу, Система
+
+        <font color=000 size=16><b>ПЕРЕДУМОВИ:</b> 
+        <font color=000 size=16> Відсутні
+
+        <font color=000 size=16><b>РЕЗУЛЬТАТ:</b> Проєкт створено у системі
+        
+        <font color=000 size=16><b>ВИКЛЮЧНІ СИТУАЦІЇ:</b>
+        <font color=000 size=16> ProjectCreate_EX_Cancel — Натиснута кнопка "Відміна".
+        <font color=000 size=16> ProjectCreate_EX_EmptyName — Поле з назвою проєкту не заповнене.
+        <font color=000 size=16> ProjectCreate_EX_Cancel — ProjectCreate_EX_NameExists — Проєкт з такою назвою вже існує.
+
+        <font color=000 size=16><b>ОСНОВНИЙ СЦЕНАРІЙ:</b>
+    end header
+
+    |Менеджер воркспейсу|
+        start
+        :Менеджер воркспейсу починає взаємодію;
+        
+        :Менеджер воркспейсу натискає кнопку "Створити проєкт";
+
+    |Система|
+        :Система відкриває форму створення проєкту;
+        note right #ffaaaa
+        <b> Можлива
+        <b> ProjectCreate_EX_Cancel
+        end note
+
+    |Менеджер воркспейсу|
+        :Менеджер заповнює форму створення проєкту (назва, менеджер проєкту, члени команди);
+        
+        :Менеджер воркспейсу натискає кнопку "Створити";
+
+    |Система|
+        :Система створює проєкт;
+        note right #ffaaaa
+        <b> Можлива
+        <b> ProjectCreate_EX_EmptyName
+        end note
+        note right #ffaaaa
+        <b> Можлива
+        <b> ProjectCreate_EX_NameExists
+        end note
+
+    |Менеджер воркспейсу|
+        :Менеджер воркспейсу отримує інформацію про створення проєкту;
+        
+        :Менеджер воркспейсу закінчує взаємодію;
+
+        stop;
+
+@enduml
+
+</center>
+
+## ProjectManagerChange
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+
+    left header
+
+        <font color=000 size=18><b>ID:</b> ProjectManagerChange
+
+        <font color=000 size=16><b>НАЗВА:</b> Змінити менеджера у проєкті
+
+        <font color=000 size=16><b>УЧАСНИКИ:</b> Менеджер воркспейсу, Менеджер проєкту, Система
+
+        <font color=000 size=16><b>ПЕРЕДУМОВИ:</b> 
+        <font color=000 size=16> Існує проєкт
+        <font color=000 size=16> Існує учасник проєкту
+        <font color=000 size=16> Існує менеджер проєкту
+
+        <font color=000 size=16><b>РЕЗУЛЬТАТ:</b> Новий менеджер у проєкті
+        
+        <font color=000 size=16><b>ВИКЛЮЧНІ СИТУАЦІЇ:</b>
+        <font color=000 size=16> ProjectManagerChange_EX_Cancel — Натиснута кнопка "Відміна".
+        <font color=000 size=16> ProjectManagerChange_EX_NoOtherProjectMember — У проєкті не існує інший учасників, окрім менеджера.
+
+        <font color=000 size=16><b>ОСНОВНИЙ СЦЕНАРІЙ:</b>
+    end header
+
+    |Менеджер воркспейсу|
+        start
+        :Менеджер воркспейсу починає взаємодію;
+        
+        :Менеджер воркспейсу натискає кнопку "Змінити менеджера";
+    |Система|
+        :Система відкриває модальне вікно з учасниками проєкту;
+        note right #ffaaaa
+        <b> Можлива
+        <b> MemberRemove_EX_PressCancel
+        end note
+
+    |Менеджер воркспейсу|
+        :Менеджер воркспейсу обирає учасника з випадаючого списку;
+        note right #ffaaaa
+        <b> Можлива
+        <b> ProjectManagerChange_EX_NoOtherProjectMember
+        end note
+        
+        :Менеджер воркспейсу натискає кнопку "Призначити менеджером";
+
+    |Система|
+        :Система змінює менеджера у проєкті;
+        
+        :Система надсилає повідомлення менеджеру проєкту про його призначення;
+        
+    |Менеджер воркспейсу|
+        :Менеджер воркспейсу отримує інформацію про змінення менеджера у проєкті;
+        
+        :Менеджер воркспейсу закінчує взаємодію;
+
+        stop;
+
+@enduml
+
+</center>
+
+## ProjectDelete
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+
+    left header
+
+        <font color=000 size=18><b>ID:</b> ProjectDelete
+
+        <font color=000 size=16><b>НАЗВА:</b> Видалити проєкт
+
+        <font color=000 size=16><b>УЧАСНИКИ:</b> Менеджер воркспейсу, Система
+
+        <font color=000 size=16><b>ПЕРЕДУМОВИ:</b> 
+        <font color=000 size=16> Існує проєкт
+
+        <font color=000 size=16><b>РЕЗУЛЬТАТ:</b> Проєкт видалено із системи
+        
+        <font color=000 size=16><b>ВИКЛЮЧНІ СИТУАЦІЇ:</b>
+        <font color=000 size=16> ProjectDelete_EX_Cancel — Натиснута кнопка "Відміна".
+
+        <font color=000 size=16><b>ОСНОВНИЙ СЦЕНАРІЙ:</b>
+    end header
+
+    |Менеджер воркспейсу|
+        start
+        :Менеджер воркспейсу починає взаємодію;
+        
+        :Менеджер воркспейсу натискає кнопку "Видалити проєкт";
+
+    |Система|
+        :Система відкриває форму підтвердження видалення проєкту;
+        note right #ffaaaa
+        <b> Можлива
+        <b> ProjectDelete_EX_Cancel
+        end note
+
+    |Менеджер воркспейсу|
+        :Менеджер воркспейсу підтверджує видалення натисканням кнопки "Видалити";
+        
+    |Система|
+        :Система видаляє проєкт та оновлює список проєктів;
+
+    |Менеджер воркспейсу|
+        :Менеджер воркспейсу отримує інформацію про видалення проєкту;
+        
+        :Менеджер воркспейсу закінчує взаємодію;
+
+        stop;
+
+@enduml
+
+</center>
+
+## UserDataArtifacts
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+
+    left header
+
+        <font color=000 size=18><b>ID:</b> UserDataArtifacts
+
+        <font color=000 size=16><b>НАЗВА:</b> Вивантажити публічні дані користувачів у форматі JSON.
+
+        <font color=000 size=16><b>УЧАСНИКИ:</b> Менеджер воркспейсу, Система
+
+        <font color=000 size=16><b>ПЕРЕДУМОВИ:</b> 
+        <font color=000 size=16> Існує проєкт.
+        <font color=000 size=16> Існує учасник проєкту.
+
+        <font color=000 size=16><b>РЕЗУЛЬТАТ:</b> Дані користувачів зберігаються у форматі JSON.
+        
+        <font color=000 size=16><b>ВИКЛЮЧНІ СИТУАЦІЇ:</b>
+        <font color=000 size=16> UserDataArtifacts_EX_Cancel — Натиснута кнопка "Відміна".
+        <font color=000 size=16> UserDataArtifacts_EX_EmptyProject — Проєкт пустий.
+        <font color=000 size=16> UserDataArtifacts_EX_NotEnoughMemory — Пам’яті в системі для вивантаження даних недостатньо.
+        <font color=000 size=16> UserDataArtifacts_EX_WrongDirectory — Каталога для вивантаження даних не існує.
+
+        <font color=000 size=16><b>ОСНОВНИЙ СЦЕНАРІЙ:</b>
+    end header
+
+    |Менеджер воркспейсу|
+        start
+        :Менеджер воркспейсу починає взаємодію;
+        
+        :Менеджер воркспейсу натискає кнопку «Вивантаження публічних даних користувачів»;
+
+    |Система|
+        :Система запитує каталог збереження даних.;
+        note right #ffaaaa
+        <b> Можлива
+        <b> UserDataArtifacts_EX_EmptyProject
+        end note
+        note right #ffaaaa
+        <b> Можлива
+        <b> UserDataArtifacts_EX_Cancel
+        end note
+
+    |Менеджер воркспейсу|
+        :Менеджер воркспейсу вводить каталог у текстове поле;
+        
+    |Система|
+        :Система отримує каталог;
+        note right #ffaaaa
+        <b> Можлива
+        <b> UserDataArtifacts_EX_WrongDirectory
+        end note
+      
+
+        :Система виконує обробку даних;
+
+        :Система записує дані у вихідний файл;
+        note right #ffaaaa
+        <b> Можлива
+        <b> UserDataArtifacts_EX_NotEnoughMemory
+        end note
+        
+    |Менеджер воркспейсу|
+        :Менеджер воркспейсу отримує інформацію про вивантаження даних;
+
+        :Менеджер воркспейсу закінчує взаємодію;
+
+        stop;
+
+@enduml
+
+</center>
+
 ## Support
 
 <center style="
