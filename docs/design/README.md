@@ -1,7 +1,325 @@
 # Проєктування бази даних
 
-В рамках проекту розробляється: 
-- модель бізнес-об'єктів 
-- ER-модель
-- реляційна схема
+## Модель бізнес об'єктів
 
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+
+entity Access
+entity Grant
+entity OperationType.name
+entity ObjectType.name
+entity RequestType.name
+
+object workspace #ffffff
+object project #ffffff
+object board #ffffff
+object task #ffffff
+
+object create #ffffff
+object read #ffffff
+object update #ffffff
+object delete #ffffff
+
+RequestType.name -l-* RequestType
+RequestType "0.*"---"0.1" ObjectType
+
+RequestType "0.*"---"0.1" OperationType
+
+OperationType.name -r-* OperationType
+
+create .u.> OperationType : instanceOf
+read .u.> OperationType : instanceOf
+update .u.> OperationType : instanceOf
+delete .u.> OperationType : instanceOf
+
+ObjectType.name -l-* ObjectType
+
+workspace .u.> ObjectType : instanceOf
+project .u.> ObjectType : instanceOf
+board .u.> ObjectType : instanceOf
+task .u.> ObjectType : instanceOf
+
+Grant "0.*"---"1.1" RequestType
+
+entity Role
+entity Role.name
+
+object ProjectUser #ffffff
+object ProjectManager #ffffff
+object WorkspaceManager #ffffff
+object SystemAdministrator #ffffff
+
+ProjectUser ..> Role : instanceOf
+ProjectManager ..> Role : instanceOf
+WorkspaceManager ..> Role : instanceOf
+SystemAdministrator ..> Role : instanceOf
+Role.name -r-* Role
+
+Role "0.1" --- "0.*" Grant
+
+Role "0.1" -r- "0.*" Access
+
+entity User
+entity User.username
+entity User.password
+entity User.email
+entity User.avatar
+
+User.username -r-* User
+User.password --* User
+User.email --* User
+User.avatar -l-* User
+
+User "1.1" --- "0.*" Access
+
+entity Workspace
+entity Workspace.id
+entity Workspace.name
+entity Workspace.description
+entity Workspace.manager
+
+Workspace.id -u-* Workspace
+Workspace.name --* Workspace
+Workspace.description -l-* Workspace
+Workspace.manager -r-* Workspace
+
+entity Project
+entity Project.id
+entity Project.name
+entity Project.description
+entity Project.manager
+
+Project.id --* Project
+Project.name -l-* Project
+Project.description -u-* Project
+Project.manager -r-* Project
+
+entity Board
+entity Board.name
+entity Board.description
+
+Board.name --* Board
+Board.description --* Board
+Board.projectID --* Board
+
+entity Task
+entity Task.id
+entity Task.title
+entity Task.description
+entity Task.deadline
+entity Task.photos
+
+Task.id -u-* Task
+Task.title --* Task
+Task.description --* Task
+Task.deadline -l-* Task
+Task.photos -r-* Task
+
+Task "0.*" --- "1.1" Board
+
+Board "0.*" --- "1.1" Project
+
+Project "0.*" --- "1.1" Workspace
+
+entity AccessMediator
+
+AccessMediator "0.*" -u- "1.1" Access
+
+AccessMediator "0.*" --- "0.1" Task
+
+AccessMediator "0.*" --- "0.1" Board
+
+AccessMediator "0.*" --- "0.1" Project
+
+AccessMediator "0.*" --- "0.1" Workspace
+
+entity Status
+entity Status.name
+
+object BackLog #ffffff
+object ToDo #ffffff
+object inProgress #ffffff
+object InReview #ffffff
+object BugFound #ffffff
+object Done #ffffff
+
+BackLog .u.> Status : instanceOf
+ToDo .u.> Status : instanceOf
+inProgress .u.> Status : instanceOf
+InReview .u.> Status : instanceOf
+BugFound .u.> Status : instanceOf
+Done .u.> Status : instanceOf
+Status.name -l-* Status
+
+Task "1.1" --- "0.*" Status
+
+@enduml
+
+</center>
+
+## Модель Сутність-Зв'язок
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+
+namespace AccountManagement {
+
+    entity User <<ENTITY>> {
+        email
+        password
+        name
+        avatar
+    }
+
+}
+
+namespace SpaceHierarchy {
+
+    entity Workspace <<ENTITY>>{
+        id
+        name
+        description
+        manager
+    }
+    
+    entity Project <<ENTITY>> {
+        id
+        name
+        description
+        manager
+    }
+    
+    entity Board <<ENTITY>> {
+        name    
+        description
+    }
+    
+    entity Task <<ENTITY>> {
+        id
+        title
+        description
+        photos
+        deadline
+    }
+
+}
+
+Workspace "1.1" --- "0.*" Project
+
+Project "1.1" --- "0.*" Board
+
+Board "1.1" --- "0.*" Task
+
+namespace TaskManagement {
+
+    entity Status <<ENTITY>> #ffff33{
+        name
+    }
+    
+    object BackLog #ffffff
+    object ToDo #ffffff
+    object inProgress #ffffff
+    object InReview #ffffff
+    object BugFound #ffffff
+    object Done #ffffff
+
+}
+
+BackLog ..> Status : instanceOf
+ToDo ..> Status : instanceOf
+inProgress ..> Status : instanceOf
+InReview ..> Status : instanceOf
+BugFound ..> Status : instanceOf
+Done ..> Status : instanceOf
+namespace AccessPolicy {
+
+    entity Role <<ENTITY>> #ffff00 {
+        name: TEXT
+    }
+    
+    object ProjectUser #ffffff 
+    object ProjectManager #ffffff 
+    object WorkspaceManager #ffffff 
+    object SystemAdministrator #ffffff
+
+    entity AccessMediator
+    entity Access
+    entity Grant
+    entity OperationType <<ENTITY>> #ffff33{
+        name
+    }
+    entity ObjectType <<ENTITY>> #ffff33{
+        name
+    }
+    entity RequestType <<ENTITY>> {
+        name
+    }
+    
+    object workspace #ffffff
+    object project #ffffff
+    object board #ffffff
+    object task #ffffff
+    
+    object create #ffffff
+    object read #ffffff
+    object update #ffffff
+    object delete #ffffff
+}
+ 
+ProjectUser ..> Role : instanceOf 
+ProjectManager ..> Role : instanceOf 
+WorkspaceManager ..> Role : instanceOf 
+SystemAdministrator ..> Role : instanceOf 
+
+RequestType "0.*"---"0.1" ObjectType
+
+RequestType "0.*"---"0.1" OperationType
+
+create .u.> OperationType : instanceOf
+read .u.> OperationType : instanceOf
+update .u.> OperationType : instanceOf
+delete .u.> OperationType : instanceOf
+
+workspace .u.> ObjectType : instanceOf
+project .u.> ObjectType : instanceOf
+board .u.> ObjectType : instanceOf
+task .u.> ObjectType : instanceOf
+
+Grant "0.*"---"1.1" RequestType
+
+Role "0.1" --- "0.*" Grant
+
+Role "0.1" -r- "0.*" Access
+
+AccessMediator "0.*" -u- "1.1" Access
+
+AccessMediator "0.*" -r- "0.1" Task
+
+AccessMediator "0.*" -r- "0.1" Board
+
+AccessMediator "0.*" -r- "0.1" Project
+
+AccessMediator "0.*" -l- "0.1" Workspace
+
+User "1.1" --- "0.*" Access
+
+Task "1.1" --- "0.*" Status
+
+@enduml
+
+</center>
+
+- реляційна схема
