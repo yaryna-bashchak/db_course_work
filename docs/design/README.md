@@ -14,13 +14,7 @@
 entity Access
 entity Grant
 entity OperationType.name
-entity ObjectType.name
 entity RequestType.name
-
-object workspace #ffffff
-object project #ffffff
-object board #ffffff
-object task #ffffff
 
 object create #ffffff
 object read #ffffff
@@ -28,7 +22,6 @@ object update #ffffff
 object delete #ffffff
 
 RequestType.name -l-* RequestType
-RequestType "0.*"---"0.1" ObjectType
 
 RequestType "0.*"---"0.1" OperationType
 
@@ -38,13 +31,6 @@ create .u.> OperationType : instanceOf
 read .u.> OperationType : instanceOf
 update .u.> OperationType : instanceOf
 delete .u.> OperationType : instanceOf
-
-ObjectType.name -l-* ObjectType
-
-workspace .u.> ObjectType : instanceOf
-project .u.> ObjectType : instanceOf
-board .u.> ObjectType : instanceOf
-task .u.> ObjectType : instanceOf
 
 Grant "0.*"---"1.1" RequestType
 
@@ -80,23 +66,19 @@ User.avatar -l-* User
 User "1.1" --- "0.*" Access
 
 entity Workspace
-entity Workspace.id
 entity Workspace.name
 entity Workspace.description
 entity Workspace.manager
 
-Workspace.id -u-* Workspace
 Workspace.name --* Workspace
 Workspace.description -l-* Workspace
 Workspace.manager -r-* Workspace
 
 entity Project
-entity Project.id
 entity Project.name
 entity Project.description
 entity Project.manager
 
-Project.id --* Project
 Project.name -l-* Project
 Project.description -u-* Project
 Project.manager -r-* Project
@@ -110,13 +92,11 @@ Board.description --* Board
 Board.projectID --* Board
 
 entity Task
-entity Task.id
 entity Task.title
 entity Task.description
 entity Task.deadline
 entity Task.photos
 
-Task.id -u-* Task
 Task.title --* Task
 Task.description --* Task
 Task.deadline -l-* Task
@@ -189,14 +169,12 @@ namespace AccountManagement {
 namespace SpaceHierarchy {
 
     entity Workspace <<ENTITY>>{
-        id
         name
         description
         manager
     }
     
     entity Project <<ENTITY>> {
-        id
         name
         description
         manager
@@ -208,7 +186,6 @@ namespace SpaceHierarchy {
     }
     
     entity Task <<ENTITY>> {
-        id
         title
         description
         photos
@@ -261,17 +238,9 @@ namespace AccessPolicy {
     entity OperationType <<ENTITY>> #ffff33{
         name
     }
-    entity ObjectType <<ENTITY>> #ffff33{
-        name
-    }
     entity RequestType <<ENTITY>> {
         name
     }
-    
-    object workspace #ffffff
-    object project #ffffff
-    object board #ffffff
-    object task #ffffff
     
     object create #ffffff
     object read #ffffff
@@ -282,9 +251,7 @@ namespace AccessPolicy {
 ProjectUser ..> Role : instanceOf 
 ProjectManager ..> Role : instanceOf 
 WorkspaceManager ..> Role : instanceOf 
-SystemAdministrator ..> Role : instanceOf 
-
-RequestType "0.*"---"0.1" ObjectType
+SystemAdministrator ..> Role : instanceOf
 
 RequestType "0.*"---"0.1" OperationType
 
@@ -292,11 +259,6 @@ create .u.> OperationType : instanceOf
 read .u.> OperationType : instanceOf
 update .u.> OperationType : instanceOf
 delete .u.> OperationType : instanceOf
-
-workspace .u.> ObjectType : instanceOf
-project .u.> ObjectType : instanceOf
-board .u.> ObjectType : instanceOf
-task .u.> ObjectType : instanceOf
 
 Grant "0.*"---"1.1" RequestType
 
@@ -347,7 +309,6 @@ Task "1.1" --- "0.*" Status
 
 Власне представляє собою проєкт, над яким працює команда.
 Має поля:
-- id: BINARY - унікальний ідентифікатор проєкту
 - name: VARCHAR - ім'я проєкту
 - description: VARCHAR - короткий опис проєкту, який полегшує процес онбоардингу нових членів команди 
 - manager: BINARY - менеджер проєкту
@@ -358,7 +319,6 @@ Task "1.1" --- "0.*" Status
 
 Завдання, яке розташоване на дошці.
 Має поля:
-- id: BINARY - унікальний ідентифікатор завдання
 - title: VARCHAR - назва завдання
 - description: VARCHAR - детальніший опис завдання, яке потрібно виконати
 - photos: VARCHAR - додаткові фото, які можна прикріпити до опису завдання
@@ -370,7 +330,6 @@ Task "1.1" --- "0.*" Status
 
 Дошка, яка створена у проєкті та містить завдання.
 Має поля:
-- id: BINARY - унікальний ідентифікатор дошки
 - name: VARCHAR - назва дошки
 - description: VARCHAR - короткий опис дошки, її призначення 
 
@@ -390,6 +349,11 @@ Task "1.1" --- "0.*" Status
 - BugFound - завдання, де знайшли помилку.
 - Done - виконані завдання.
 
+
+### Access
+
+Access - це сутність-асоціація, яка зберігає в собі сукупність ролей, які надані користувачу. В таблиці може існувати необмежена кількість сутностей, які стосуються одного користувача і які стосуються однієї ролі (тобто забезпечується зв'язок один до багатьох)
+
 ### Role (Роль) 
  
 Роль, яка використовується для визначення прав користувача. 
@@ -401,16 +365,17 @@ Task "1.1" --- "0.*" Status
 
 ### Grant
 
-Grant - сукупність прав, які має певна роль.
-Має поля:
-- role_id: BINARY - роль, права якої описує грант
-- request_type_id: BINARY - дія + об'єкт над яким була виконана дана дія, які доступні користувачам з даною роллю.
+Grant - це сутність-асоціація, яка зберігає сукупність прав, які має певна роль. В таблиці може існувати необмежена кількість сутностей, які стосуються ролі і які стосуються виконуваної дії над певним об'єктом (тобто забезпечується зв'язок один до багатьох)
 
-### Access
+### RequestType
 
-Access - це сутність, яка зберігає в собі сукупність ролей, які надані користувачу.
-Має поля:
-- user_id: BINARY - ідентифікатор користувача, якого стосується даний аксес
-- role_id: BINARY - сукупність ролей, присвоєних конкретному користувачу.
+RequestType - це сутність, яка містить в собі об'єкт (унікальний id в системі), якому надають певний доступ, і сам доступ, який забезпечується словником OperationType
+
+### OperationType
+
+OperationType - це словник, який зберігає в собі перелік дій, які можуть бути виконані над сутністю системи
+- name: VARCHAR - назва дії
 
 ## Реляційна схема
+
+![Реляційна схема](https://i.imgur.com/9nDMdXs.png)
